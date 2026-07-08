@@ -1,0 +1,476 @@
+/* File: assets/css/dashboard.css */
+
+/* --- 1. Global Variables & Base Styles --- */
+:root {
+    --primary-color: #4361ee; /* Biru cerah */
+    --secondary-color: #3a0ca3; /* Ungu tua */
+    --accent-color: #00bbf9; /* Biru muda/Cyan untuk highlight */
+
+    --text-dark: #212529; /* Hampir hitam */
+    --text-muted: #6c757d; /* Abu-abu sedang */
+    --text-light: #f8f9fa; /* Hampir putih */
+
+    --bg-light: #f8f9fa; /* Latar belakang aplikasi */
+    --bg-card: #ffffff; /* Latar belakang kartu */
+    --border-color: #dee2e6; /* Warna border standar */
+    --shadow-light: rgba(0, 0, 0, 0.08); /* Bayangan ringan */
+    --shadow-medium: rgba(0, 0, 0, 0.15); /* Bayangan sedang */
+
+    --sidebar-width: 250px;
+    --border-radius-base: 0.75rem; /* 12px */
+    --border-radius-sm: 0.5rem; /* 8px */
+}
+
+/* Reset Box Model */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar Styling (Webkit browsers) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-light);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* --- 2. Layout Structure --- */
+#wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+#sidebar-wrapper {
+    min-width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
+    background: linear-gradient(180deg, var(--secondary-color) 0%, #2a096e 100%); /* Gradien */
+    color: var(--text-light);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 0 10px var(--shadow-light);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000; /* Pastikan sidebar di atas konten lain saat toggled */
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: calc(-1 * var(--sidebar-width));
+}
+
+#page-content-wrapper {
+    flex-grow: 1;
+    padding: 1.5rem; /* Padding lebih konsisten */
+    transition: all 0.3s ease-in-out;
+    background-color: var(--bg-light);
+}
+
+/* --- 3. Sidebar Styling --- */
+.sidebar-heading {
+    padding: 1.5rem 1rem;
+    font-size: 1.8rem; /* Sedikit lebih besar */
+    font-weight: 700; /* Lebih tebal */
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    letter-spacing: 0.5px;
+}
+
+.list-group-item {
+    background-color: transparent;
+    color: rgba(255,255,255,0.85); /* Sedikit lebih terang */
+    border: none;
+    padding: 1.1rem 1.5rem; /* Padding lebih nyaman */
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.list-group-item:hover {
+    background-color: rgba(255,255,255,0.15); /* Hover lebih jelas */
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.list-group-item.active {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-radius: var(--border-radius-sm);
+    margin: 0 0.75rem; /* Margin di sisi agar terlihat 'mengambang' */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Bayangan untuk item aktif */
+}
+
+.list-group-item i {
+    margin-right: 12px; /* Margin ikon */
+    font-size: 1.2rem;
+}
+
+/* --- 4. Navbar Styling --- */
+.navbar {
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-light);
+    margin-bottom: 1.5rem;
+    border-radius: var(--border-radius-base);
+    padding: 0.75rem 1.5rem; /* Padding lebih nyaman */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar .nav-link {
+    color: var(--text-dark);
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    transition: color 0.2s ease;
+}
+.navbar .nav-link:hover {
+    color: var(--primary-color);
+}
+
+.toggle-button {
+    color: var(--primary-color);
+    border: none;
+    background: none;
+    font-size: 1.6rem; /* Ukuran ikon */
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.toggle-button:hover {
+    transform: scale(1.1);
+}
+
+.navbar-nav .dropdown-menu {
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 12px var(--shadow-light);
+    border: 1px solid var(--border-color);
+}
+.navbar-nav .dropdown-item {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+}
+.navbar-nav .dropdown-item:hover {
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+}
+
+/* --- 5. Card Styling --- */
+.card {
+    border-radius: var(--border-radius-base);
+    border: none;
+    box-shadow: 0 8px 24px var(--shadow-light); /* Bayangan lebih halus dan dalam */
+    background-color: var(--bg-card);
+    transition: transform 0.2s ease;
+}
+.card:hover {
+    transform: translateY(-3px); /* Efek hover ringan */
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    border-top-left-radius: var(--border-radius-base); /* Pastikan border-radius header sesuai */
+    border-top-right-radius: var(--border-radius-base);
+}
+
+/* --- 6. Summary Cards --- */
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 1.5rem;
+    position: relative; /* Untuk efek hover */
+    overflow: hidden; /* Untuk efek pseudo-element */
+}
+.summary-card .icon {
+    font-size: 2.8rem; /* Ikon lebih besar */
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    opacity: 0.7; /* Sedikit transparan */
+    transition: opacity 0.2s ease;
+}
+.summary-card .value {
+    font-size: 2.2rem; /* Nilai lebih besar */
+    font-weight: 700; /* Lebih tebal */
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+.summary-card .label {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0;
+}
+
+/* Efek hover untuk summary cards */
+.summary-card:hover {
+    box-shadow: 0 12px 30px var(--shadow-medium);
+}
+.summary-card:hover .icon {
+    opacity: 1;
+}
+
+/* Warna khusus untuk summary card jika ada bg-primary */
+.summary-card.bg-primary {
+    background-color: var(--primary-color) !important;
+    color: var(--text-light);
+}
+.summary-card.bg-primary .icon { color: var(--text-light); opacity: 0.9; }
+.summary-card.bg-primary .value, .summary-card.bg-primary .label { color: var(--text-light); }
+
+
+/* --- 7. Insight Card --- */
+.insight-card .card-body {
+    padding: 1.5rem;
+}
+.insight-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px dashed var(--border-color); /* Garis putus-putus */
+}
+.insight-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.insight-item i {
+    font-size: 1.3rem;
+    margin-right: 15px;
+    color: var(--accent-color); /* Warna ikon insight */
+    padding-top: 3px;
+}
+.insight-item .text {
+    flex-grow: 1;
+}
+.insight-item .text .fw-bold {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+.insight-item .text small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+}
+.insight-item.success i { color: #28a745; } /* Warna hijau untuk sukses */
+.insight-item.warning i { color: #ffc107; } /* Warna kuning untuk peringatan */
+.insight-item.danger i { color: #dc3545; } /* Warna merah untuk bahaya */
+
+/* --- 8. Device List Card --- */
+.device-list-card .card-body {
+    padding: 1.5rem;
+}
+.device-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.device-item:last-child {
+    border-bottom: none;
+}
+.device-item i {
+    font-size: 1.6rem; /* Ikon lebih besar */
+    margin-right: 18px;
+    color: var(--primary-color);
+}
+.device-item .device-info {
+    flex-grow: 1;
+}
+.device-item .device-name {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.2rem;
+}
+.device-item .device-details {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+.device-item .badge {
+    font-size: 0.78rem; /* Ukuran badge */
+    padding: 0.5em 0.8em;
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.badge.bg-primary { background-color: var(--primary-color) !important; }
+.badge.bg-success { background-color: #28a745 !important; }
+.badge.bg-warning { background-color: #ffc107 !important; color: var(--text-dark) !important; }
+.badge.bg-danger { background-color: #dc3545 !important; }
+
+/* --- 9. Chart Styling --- */
+.nav-tabs .nav-link {
+    color: var(--text-muted);
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.nav-tabs .nav-link:hover {
+    color: var(--primary-color);
+}
+.nav-tabs .nav-link.active {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background-color: transparent;
+    font-weight: 600;
+}
+.nav-tabs {
+    border-bottom: 1px solid var(--border-color);
+}
+.chart-container {
+    position: relative;
+    height: 320px; /* Sedikit lebih tinggi untuk chart */
+    width: 100%;
+    padding-top: 1rem; /* Ruang di atas chart */
+}
+
+/* --- 10. Utility & General Styles --- */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+p {
+    color: var(--text-muted);
+}
+
+.btn {
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-primary:hover {
+    background-color: #364fc7; /* Sedikit lebih gelap */
+    border-color: #364fc7;
+}
+
+.alert {
+    border-radius: var(--border-radius-sm);
+    font-size: 0.95rem;
+}
+
+.text-primary { color: var(--primary-color) !important; }
+.text-secondary { color: var(--secondary-color) !important; }
+.text-accent { color: var(--accent-color) !important; }
+
+
+/* --- 11. Responsive Adjustments --- */
+@media (max-width: 992px) { /* Medium devices (tablet) */
+    #page-content-wrapper {
+        padding: 1rem;
+    }
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+    .sidebar-heading {
+        font-size: 1.5rem;
+        padding: 1rem 0.5rem;
+    }
+    .list-group-item {
+        padding: 0.9rem 1rem;
+    }
+    .summary-card .value {
+        font-size: 1.8rem;
+    }
+    .summary-card .icon {
+        font-size: 2.2rem;
+    }
+    .chart-container {
+        height: 280px;
+    }
+}
+
+@media (max-width: 768px) { /* Small devices (mobile) */
+    #sidebar-wrapper {
+        margin-left: calc(-1 * var(--sidebar-width));
+        position: fixed;
+        z-index: 1030; /* Lebih tinggi dari navbar */
+        box-shadow: 4px 0 15px var(--shadow-medium);
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: 0;
+    }
+    #page-content-wrapper {
+        width: 100%;
+        margin-left: 0;
+        padding: 1rem 0.75rem;
+    }
+    .toggle-button {
+        display: block;
+        order: -1; /* Pindahkan ke kiri navbar */
+    }
+    .navbar-nav {
+        flex-direction: row;
+        align-items: center;
+        margin-left: auto; /* Dorong ke kanan */
+    }
+    .navbar-nav .nav-item {
+        margin-left: 0.5rem;
+    }
+    .navbar-collapse {
+        flex-grow: 0; /* Jangan biarkan collapse mengambil ruang penuh */
+    }
+    .summary-card {
+        padding: 1.2rem;
+    }
+    .summary-card .value {
+        font-size: 1.6rem;
+    }
+    .summary-card .icon {
+        font-size: 2rem;
+    }
+    .insight-item {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+    }
+    .device-item i {
+        font-size: 1.4rem;
+        margin-right: 12px;
+    }
+    .device-item .badge {
+        padding: 0.4em 0.6em;
+    }
+}
+
+@media (min-width: 769px) {
+    .toggle-button {
+        display: none;
+    }
+}
